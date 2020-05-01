@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AdvancedBot.Core.Services.DataStorage;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 
@@ -16,7 +17,7 @@ namespace AdvancedBot.Core.Commands.Modules
             _accounts = accounts;
         }
 
-        [Command("addiwanttoplay")]
+        [Command("addiwanttoplay")][RequireUserPermission(GuildPermission.ManageRoles)]
         public async Task AddIWantToPlay(SocketRole role, [Remainder]string trigger)
         {
             var guild = _accounts.GetOrCreateGuildAccount(Context.Guild.Id);
@@ -26,7 +27,7 @@ namespace AdvancedBot.Core.Commands.Modules
             await ReplyAsync($"Successfully added the trigger {trigger} for {role.Name}.");
         }
 
-        [Command("removeiwanttoplay")]
+        [Command("removeiwanttoplay")][RequireUserPermission(GuildPermission.ManageRoles)]
         public async Task RemoveIWantToPlay([Remainder]string trigger)
         {
             var guild = _accounts.GetOrCreateGuildAccount(Context.Guild.Id);
