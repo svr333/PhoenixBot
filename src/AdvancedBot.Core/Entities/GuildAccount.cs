@@ -11,6 +11,8 @@ namespace AdvancedBot.Core.Entities
         public ulong Id { get; set; }
         public List<string> Prefixes { get; set; }
         public ulong ModRoleId { get; set; }
+        public List<ulong> SelfObtainableRoles { get; set; }
+        public Dictionary<string, ulong> PingableRoles { get; set; }
         public List<CommandSettings> Commands { get; set; }
 
         #endregion
@@ -18,6 +20,8 @@ namespace AdvancedBot.Core.Entities
         public GuildAccount()
         {
             Prefixes = new List<string>() { "!" };
+            SelfObtainableRoles = new List<ulong>();
+            PingableRoles = new Dictionary<string, ulong>();
         }
 
         public void RemovePrefix(string prefix)
@@ -103,5 +107,39 @@ namespace AdvancedBot.Core.Entities
 
         public void SetModRole(ulong id)
             => ModRoleId = id;
+
+        public void AddSelfObtainableRole(ulong id)
+        {
+            if (SelfObtainableRoles.Contains(id))
+                throw new Exception("Role is already on the list");
+            else SelfObtainableRoles.Add(id);
+        }
+
+        public void RemoveSelfObtainableRole(ulong id)
+        {
+            if (SelfObtainableRoles.Contains(id))
+                SelfObtainableRoles.Remove(id);
+            else throw new Exception("Role is not on the list.");
+        }
+
+        public bool RoleIdIsInObtainableRolesList(ulong id)
+            => SelfObtainableRoles.Contains(id);
+
+        public void AddPingableRole(string trigger, ulong id)
+        {
+            if (PingableRoles.TryGetValue(trigger, out ulong usedId))
+                throw new Exception($"Role is already on the list by the name {trigger}.");
+            else PingableRoles.TryAdd(trigger, id);
+        }
+
+        public void RemovePingableRole(string trigger)
+        {
+            if (PingableRoles.TryGetValue(trigger, out ulong id))
+                PingableRoles.Remove(trigger);
+            else throw new Exception($"{trigger} is not on the list.");
+        }
+
+        public bool RoleIdIsInPingableRolesList(string trigger)
+            => PingableRoles.TryGetValue(trigger, out ulong id);
     }
 }

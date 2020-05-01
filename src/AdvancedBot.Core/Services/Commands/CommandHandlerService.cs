@@ -59,6 +59,13 @@ namespace AdvancedBot.Core.Services.Commands
             if (result.IsSuccess) 
             {
                 await ctx.Message.AddReactionAsync(new Emoji("✅"));
+
+                // var guild = _accounts.GetOrCreateGuildAccount(ctx.Guild.Id);
+
+                // if (guild.Commands.Find(x => x.Name == $"{cmd.Value.Module}_{cmd.Value.Name}".ToLower()).Invoke)
+                // {
+                //     await ctx.Message.DeleteAsync();
+                // }
                 return;
             }
 

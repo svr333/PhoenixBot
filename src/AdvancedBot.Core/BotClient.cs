@@ -41,7 +41,7 @@ namespace AdvancedBot.Core
             _client.Log += LogAsync;
             _commands.Log += LogAsync;
 
-            var token = Environment.GetEnvironmentVariable("PhoenixToken");
+            var token = Environment.GetEnvironmentVariable("GLRDevToken");
 
             await Task.Delay(10).ContinueWith(t => _client.LoginAsync(TokenType.Bot, token));
             await _client.StartAsync();
@@ -54,7 +54,7 @@ namespace AdvancedBot.Core
             => Console.WriteLine($"{msg.Source}: {msg.Message}");
 
         private async Task OnReadyAsync()
-            => await _client.SetGameAsync("Being a bot.");
+            => await _client.SetGameAsync("a play.");
 
         private ServiceProvider ConfigureServices()
         {
@@ -64,6 +64,7 @@ namespace AdvancedBot.Core
                 .AddSingleton<CommandHandlerService>()
                 .AddSingleton<LiteDBHandler>()
                 .AddSingleton<GuildAccountService>()
+                .AddSingleton<InvokeMessageService>()
                 .BuildServiceProvider();
         }
     }
