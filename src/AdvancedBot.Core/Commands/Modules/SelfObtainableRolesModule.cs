@@ -87,7 +87,7 @@ namespace AdvancedBot.Core.Commands.Modules
             if (roles.Count is 0) throw new Exception("This server doesn't have any self obtainable roles.");
             await ReplyAsync($"Self Obtainable Roles for **{Context.Guild.Name}**\n" + 
                             $"▬▬▬▬▬▬▬▬▬▬▬▬\n" +
-                            $"`{string.Join("´´, ´", roles.Select(x => $"{x.Name}"))}`");
+                            $"`{string.Join("´, ´", roles.Select(x => $"{x.Name}"))}`");
         }
     }
 }
