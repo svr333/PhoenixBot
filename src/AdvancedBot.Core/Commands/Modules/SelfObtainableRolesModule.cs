@@ -70,7 +70,7 @@ namespace AdvancedBot.Core.Commands.Modules
             await ReplyAsync($"Successfully removed **{role.Name}** with id **{role.Id}** to the list of obtainable roles.");
         }
 
-        [Command("listiam")]
+        [Command("listiam")][RequireCustomPermission(GuildPermission.ManageRoles)]
         public async Task ListIAm()
         {
             var guild = _accounts.GetOrCreateGuildAccount(Context.Guild.Id);

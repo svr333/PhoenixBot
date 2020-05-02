@@ -39,7 +39,7 @@ namespace AdvancedBot.Core.Commands.Modules
             await ReplyAsync($"Successfully removed the trigger {trigger}.");
         }
 
-        [Command("listiwanttoplay")]
+        [Command("listiwanttoplay")][RequireCustomPermission(GuildPermission.ManageRoles)]
         public async Task ListIWantToPlay()
         {
             var guild = _accounts.GetOrCreateGuildAccount(Context.Guild.Id);
@@ -64,13 +64,13 @@ namespace AdvancedBot.Core.Commands.Modules
         {
             var guild = _accounts.GetOrCreateGuildAccount(Context.Guild.Id);
             if (!guild.PingableRoles.TryGetValue(trigger, out ulong roleId))
-                throw new Exception($"Couldn't find the command for {trigger}");
+                throw new Exception($"Couldn't find the command for {trigger}.");
 
             var role = Context.Guild.Roles.First(x => x.Id == roleId);
             if ((Context.User as SocketGuildUser).Roles.First(x => x.Id == role.Id) is null)
                 throw new Exception($"You need the **{role.Name}** in order to use this command.");
 
-            await ReplyAsync($"Hey {role.Mention}, {Context.User.Mention} wants to play some games!");
+            await ReplyAsync($"Hey {role.Mention}, {Context.User.Mention} wants to play!");
         }
     }
 }
