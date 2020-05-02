@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AdvancedBot.Core.Commands.Preconditions;
 using AdvancedBot.Core.Services.DataStorage;
 using Discord;
 using Discord.Commands;
@@ -37,7 +39,27 @@ namespace AdvancedBot.Core.Commands.Modules
             await ReplyAsync($"Successfully removed the trigger {trigger}.");
         }
 
-        [Command("iwanttoplay")]
+        [Command("listiwanttoplay")]
+        public async Task ListIWantToPlay()
+        {
+            var guild = _accounts.GetOrCreateGuildAccount(Context.Guild.Id);
+            var roles = new List<IRole>();
+
+            for (int i = 0; i < guild.PingableRoles.Count; i++)
+            {
+                var roleId = guild.PingableRoles.Values.ToArray()[i];
+                var currentRole = Context.Guild.Roles.First(x => x.Id == roleId);
+                if (!(currentRole is null))
+                    roles.Add(currentRole);
+            }
+
+            if (roles.Count is 0) throw new Exception("This server doesn't have any pingable roles.");
+            await ReplyAsync($"IWantToPlayRoles for **{Context.Guild.Name}**\n" + 
+                            $"▬▬▬▬▬▬▬▬▬▬▬▬\n" + 
+                            $"`{string.Join("`, `", roles.Select(x => $"{x.Name}"))}`");
+        }
+
+        [Command("iwanttoplay")][Cooldown(600000)]
         public async Task IWantToPlay([Remainder]string trigger)
         {
             var guild = _accounts.GetOrCreateGuildAccount(Context.Guild.Id);

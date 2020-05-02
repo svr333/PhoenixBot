@@ -127,6 +127,8 @@ namespace AdvancedBot.Core.Entities
 
         public void AddPingableRole(string trigger, ulong id)
         {
+            trigger = trigger.ToLower();
+
             if (PingableRoles.TryGetValue(trigger, out ulong usedId))
                 throw new Exception($"Role is already on the list by the name {trigger}.");
             else PingableRoles.TryAdd(trigger, id);
@@ -134,12 +136,13 @@ namespace AdvancedBot.Core.Entities
 
         public void RemovePingableRole(string trigger)
         {
+            trigger = trigger.ToLower();
             if (PingableRoles.TryGetValue(trigger, out ulong id))
                 PingableRoles.Remove(trigger);
             else throw new Exception($"{trigger} is not on the list.");
         }
 
         public bool RoleIdIsInPingableRolesList(string trigger)
-            => PingableRoles.TryGetValue(trigger, out ulong id);
+            => PingableRoles.TryGetValue(trigger.ToLower(), out ulong id);
     }
 }
