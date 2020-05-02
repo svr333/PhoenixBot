@@ -30,7 +30,7 @@ namespace AdvancedBot.Core.Commands.Modules
             
             var guildUser =  Context.User as SocketGuildUser;
 
-            if (guildUser.Roles.Contains(role)) throw new Exception($"**{guildUser.Nickname}** already has this role.");
+            if (guildUser.Roles.Contains(role)) throw new Exception($"**{guildUser.Username}** already has this role.");
             await guildUser.AddRoleAsync(role);
             var message = await ReplyAsync($"You successfully obtained role **{role.Name}**.");
             //_invokes.InstantiateNewTimer(message, 10);
