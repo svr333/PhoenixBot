@@ -67,8 +67,9 @@ namespace AdvancedBot.Core.Commands.Modules
                 throw new Exception($"Couldn't find the command for {trigger}.");
 
             var role = Context.Guild.Roles.First(x => x.Id == roleId);
-            if ((Context.User as SocketGuildUser).Roles.First(x => x.Id == role.Id) is null)
-                throw new Exception($"You need the **{role.Name}** in order to use this command.");
+            var guildUser = Context.User as SocketGuildUser;
+            if (guildUser.Roles.FirstOrDefault(x => x.Id == role.Id) is null)
+                throw new Exception($"You need role **{role.Name}** in order to use this command.");
 
             await ReplyAsync($"Hey {role.Mention}, {Context.User.Mention} wants to play!");
         }
