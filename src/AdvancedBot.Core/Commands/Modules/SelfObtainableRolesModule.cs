@@ -22,7 +22,7 @@ namespace AdvancedBot.Core.Commands.Modules
             _invokes = invokes;
         }
 
-        [Command("iam")][Cooldown(300000)]
+        [Command("iam")]
         public async Task ObtainSOR([Remainder]SocketRole role)
         {
             var guild = _accounts.GetOrCreateGuildAccount(Context.Guild.Id);
