@@ -71,7 +71,7 @@ namespace AdvancedBot.Core.Commands.Modules
             if (guildUser.Roles.FirstOrDefault(x => x.Id == role.Id) is null)
                 throw new Exception($"You need role **{role.Name}** in order to use this command.");
 
-            await ReplyAsync($"Hey {role.Mention}, {Context.User.Mention} wants to play!");
+            await ReplyAsync($"using id: Hey <@&{role.Id}>, {Context.User.Mention} wants to play!");
         }
     }
 }
