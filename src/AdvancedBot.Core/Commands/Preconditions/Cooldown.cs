@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Discord.Commands;
+using Humanizer;
 
 namespace AdvancedBot.Core.Commands.Preconditions
 {
@@ -31,16 +32,14 @@ namespace AdvancedBot.Core.Commands.Preconditions
                 return Task.FromResult(PreconditionResult.FromSuccess());
             }
 
-            var secsPassedSinceLastExe = (DateTime.Now - lastExecution).TotalSeconds;
-            var cooldownInSecs = _cooldownInMs / 1000;
 
-            var secsLeft = cooldownInSecs - secsPassedSinceLastExe;
+            var lastExecutionTimespan = (DateTime.Now - lastExecution);
+            var cooldownTimespan = TimeSpan.FromMilliseconds(_cooldownInMs);
 
-            var totalCooldownMinutes = Math.Floor(secsLeft / 60.0);
-            var totalCooldownSeconds = Math.Round(secsLeft % 60.0);
+            var timeLeft = cooldownTimespan - lastExecutionTimespan;
 
             return Task.FromResult(PreconditionResult.FromError(
-                $"Command is still on cooldown. Try again in **{totalCooldownMinutes}** minutes and **{totalCooldownSeconds}** seconds."));
+                $"Command on cooldown. Try again in {timeLeft.Humanize()}."));
         }
     }
 }
